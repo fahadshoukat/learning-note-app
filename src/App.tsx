@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Note } from './components/noteType'
 
-function App() {
+const App = () => {
+
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [noteText, setNoteText] = useState<String>("");
+
+  const handleAddNoteForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    const noteObj: Note = {
+      text: noteText,
+      id: Math.floor(Math.random() * 100)
+    };
+
+    setNotes([...notes, noteObj])
+  }
+
+  const handleNoteChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+
+    const input = e.target.value;
+    setNoteText(input);
+
+  }
+
+  console.log(notes);
+  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onClick={handleAddNoteForm} >
+        <input type="text" required onChange={handleNoteChange}/>
+        <button type="submit">Add Note</button>
+      </form>
     </div>
   );
 }
